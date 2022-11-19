@@ -4,8 +4,10 @@ decimal expectedValue;
 const decimal oddOfJackpot = 292201338;
 const string rawDataFilePath = @"../output.txt";
 string resultImage;
-const string pageFilePathFrom = @"../prototype.html";
+const string pageFilePathFrom = @"../template.html";
 const string pageFilePathTo = @"../index.html";
+string UTCtime = DateTime.UtcNow.ToString("o");
+
 
 GetPrizeFromFile(rawDataFilePath);
 // Console.WriteLine(prizeString);
@@ -16,7 +18,7 @@ GetExpectedValue(oddOfJackpot, prizeDecimal);
 GetResultImage(expectedValue);
 // Console.WriteLine(resultImage);
 // Console.WriteLine(UpdatePage(pageFilePath, prizeString, resultImage, expectedValue));
-UpdatePage(pageFilePathFrom, pageFilePathTo, prizeString, resultImage, expectedValue);
+UpdatePage(pageFilePathFrom, pageFilePathTo, prizeString, resultImage, expectedValue, UTCtime);
 
 
 
@@ -66,10 +68,13 @@ string GetResultImage(decimal value)
     return resultImage;
 }
 
-bool UpdatePage(string pathFrom, string pathTo, string prizeString, string resultImage, decimal expectedValue)
+bool UpdatePage(string pathFrom, string pathTo, string prizeString, string resultImage, decimal expectedValue, string utc)
 {
     var oldPage = File.ReadAllText(pathFrom);
-    var newPage = oldPage.Replace("$prize", prizeString).Replace("$result_image", resultImage).Replace("$expected_value", expectedValue.ToString());
+    var newPage = oldPage.Replace("$prize", prizeString)
+                            .Replace("$result_image", resultImage)
+                            .Replace("$expected_value", expectedValue.ToString())
+                            .Replace("$last_update", utc);
     try
     {
         File.WriteAllText(pathTo, newPage);
