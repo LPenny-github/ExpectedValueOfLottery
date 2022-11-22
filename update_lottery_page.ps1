@@ -14,3 +14,11 @@ Start-Process ..\index.html
 
 # Check if everything's fine...
 Pause
+
+Set-Location $env:USERPROFILE\Projects\ExpectedValueOfLottery\
+
+git commit -a -m "test: data update automatically"
+
+git push
+
+Pause

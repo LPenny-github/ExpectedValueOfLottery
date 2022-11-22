@@ -1,8 +1,13 @@
 const retryCount = 3;
 const delay = 1000;
 let currentRetry = 0;
+let status;
 
 const url = "https://powerball.com";
+
+// Only for test:
+// const url = "https://facebook.com"; 
+
 
 var cheerio = require("cheerio");
 const puppeteer = require("puppeteer");
@@ -36,7 +41,7 @@ async function Retry(){
 function IsTransient(error){
 
     const transientError = "TimeoutError"; 
-    if (error === transientError) {
+    if (error === transientError || status === 404) {
        return true;
     }
     return false;
@@ -47,7 +52,8 @@ function IsTransient(error){
 async function getData() {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
-    await page.goto(url);
+    status = await page.goto(url);
+    status = status.status;
     const data = await page.content();
     await browser.close();
     processData(data);
