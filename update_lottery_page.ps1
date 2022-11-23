@@ -17,7 +17,7 @@ Pause
 
 Set-Location $env:USERPROFILE\Projects\ExpectedValueOfLottery\
 
-git commit -a -m "test: data update automatically"
+git commit -a -m "data update automatically"
 
 git push
 
